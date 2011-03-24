@@ -66,6 +66,7 @@
 
 - (void)synchronizeSettings;
 - (IBAction)dismiss:(id)sender;
+- (BOOL)isPad;
 
 // subclassing: optionally override these methods to customize appearance and functionality
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;

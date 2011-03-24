@@ -173,14 +173,16 @@ CGRect IASKCGRectSwap(CGRect rect);
 	IASK_IF_IOS4_OR_GREATER([dc addObserver:self selector:@selector(reload) name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];);
 	[dc addObserver:self selector:@selector(synchronizeSettings) name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
 
-	[dc addObserver:self
-											 selector:@selector(_keyboardWillShow:)
-												 name:UIKeyboardWillShowNotification
-											   object:nil];
-	[dc addObserver:self
-											 selector:@selector(_keyboardWillHide:)
-												 name:UIKeyboardWillHideNotification
-											   object:nil];		
+	if (![self isPad]) {
+        [dc addObserver:self
+               selector:@selector(_keyboardWillShow:)
+                   name:UIKeyboardWillShowNotification
+                 object:nil];
+        [dc addObserver:self
+               selector:@selector(_keyboardWillHide:)
+                   name:UIKeyboardWillHideNotification
+                 object:nil];	
+    }	
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -843,5 +845,14 @@ CGRect IASKCGRectSwap(CGRect rect) {
 	newRect.size.width = rect.size.height;
 	newRect.size.height = rect.size.width;
 	return newRect;
+}
+
+#pragma mark Device Check
+-(BOOL)isPad {
+#ifdef UI_USER_INTERFACE_IDIOM
+    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+#else  
+    return NO;
+#endif    
 }
 @end
